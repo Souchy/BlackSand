@@ -1,0 +1,18 @@
+import { test, expect } from '@playwright/test';
+
+test.beforeEach(async ({ page }) => {
+  await page.goto('http://localhost:9000');
+});
+
+test.describe('MyApp', () => {
+  test('shows message', async ({ page }) => {
+    await page.waitForSelector('my-app', { timeout: 10000 });
+    
+    
+    const messageElement = page.locator('my-app').getByText('Hello World!');
+    await expect(messageElement).toBeVisible();
+    
+    await expect(page.locator('my-app')).toContainText('Hello World!');
+    await expect(page).toHaveTitle(/Aurelia/);
+  });
+});
