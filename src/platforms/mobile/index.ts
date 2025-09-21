@@ -1,8 +1,5 @@
 const modules = import.meta.glob('./**/*.ts', { eager: true });
-
-// Collect all exports (could be classes, functions, etc.)
-const components = Object.values(modules)
-  .flatMap(mod => Object.values(mod));
-
-// Export for registration
+const components = Object.values(modules).flatMap(mod => Object.values(mod));
 export default components;
+
+export * from '@/features/feature-embed-db/embed-db';
