@@ -10,6 +10,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': '/src',
+      '@base': '/src/platforms/common',
     },
   },
   server: {

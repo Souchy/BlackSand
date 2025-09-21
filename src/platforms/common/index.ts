@@ -3,4 +3,4 @@ const components = Object.values(modules).flatMap(mod => Object.values(mod));
 export default components;
 
 export * from './app';
-export * from '@/features/feature-embed-db/embed-db';
+export * from '@/features/feature-ai/recognition';

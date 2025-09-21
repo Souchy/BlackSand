@@ -1,11 +1,12 @@
 import Aurelia, { } from 'aurelia';
 import { RouterConfiguration, Transition } from '@aurelia/router';
-import { MyApp } from './my-app';
 import { I18N, I18nConfiguration } from '@aurelia/i18n';
 import Fetch from 'i18next-fetch-backend';
 import * as SouchyAu from 'souchy.au'
+import * as commonModules from './platforms/common/index';
 
 const platformModuleMap: Record<string, string> = {
+  common: './platforms/common/index.ts',
   web: './platforms/web/index.ts',
   windows: './platforms/desktop/index.ts',
   macos: './platforms/desktop/index.ts',
@@ -19,10 +20,17 @@ let i18n: I18N | null = null;
 
 // Components
 au.register(SouchyAu);
-// Platform specific
-const platformModulePath = platformModuleMap[import.meta.env.VITE_PLATFORM];
-if (platformModulePath) {
-  const platformModule = await import(/* @vite-ignore */  platformModulePath);
+
+// Base modules
+// au.register(commonModules);
+
+// Platform modules
+let platformModule = commonModules;
+const platformName = import.meta.env.VITE_PLATFORM;
+const platformExists = platformName && platformName in platformModuleMap;
+if (platformExists) {
+  const platformModulePath = platformModuleMap[platformName];
+  platformModule = await import(/* @vite-ignore */  platformModulePath);
   au.register(platformModule);
 }
 
@@ -45,6 +53,7 @@ if (platformModulePath) {
 
 // Router
 au.register(RouterConfiguration.customize({
+
   useNavigationModel: true,
   useUrlFragmentHash: false,
   activeClass: "toggled",
@@ -58,5 +67,6 @@ au.register(RouterConfiguration.customize({
 }));
 
 // Start application
-await au.app(MyApp)
+const App = platformModule.App ?? commonModules.App;
+await au.app(App)
   .start();

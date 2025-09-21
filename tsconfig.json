@@ -10,7 +10,12 @@
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ],
+      "@base/*": [
+        "src/platforms/common/*"
+      ]
     }
   },
   "include": [

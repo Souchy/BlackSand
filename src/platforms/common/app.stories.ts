@@ -1,13 +1,13 @@
 
-import { MyApp } from './my-app';
+import { App } from './app';
 //import { action } from '@storybook/addon-actions';
 //import { userEvent, within } from '@storybook/test';
 
 const meta = {
-  title: 'Example/MyApp',
-  component: MyApp,
+  title: 'Example/App',
+  component: App,
   render: () => ({
-    template: `<my-app message.bind="message"></my-app>`,
+    template: `<app message.bind="message"></app>`,
   }),
   argTypes: {
     message: { control: 'text' }
@@ -36,7 +36,7 @@ export const WelcomeMessage = {
 
 export const NoArgs = {
   render: () => ({
-    template: `<my-app></my-app>`
+    template: `<app></app>`
   })
 };
 
