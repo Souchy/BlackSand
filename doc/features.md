@@ -43,4 +43,8 @@
 
 ## Share
 
-- Share to friends and nearby devices 
+- Share to friends and nearby devices
+
+## Format conversion
+
+- Select multiple files or all filtered files and convert to a different format type.
