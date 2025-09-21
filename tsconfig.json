@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "module": "esnext",
-    "moduleResolution": "node",
+    "target": "esnext",
+    "moduleResolution": "bundler",
     "skipLibCheck": true,
-    "target": "ES2017",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "importHelpers": true,
