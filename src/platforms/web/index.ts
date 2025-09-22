@@ -1,6 +1,7 @@
-const modules = import.meta.glob('./**/*.ts', { eager: true });
+const modules = import.meta.glob(['./components/**/*.ts', './views/**/*.ts'], { eager: true });
 const components = Object.values(modules).flatMap(mod => Object.values(mod));
 export default components;
 
-// export * from './app';
+// Platform specific exports
+export * from './app';
 export * from '@/features/feature-web-client/web-client';

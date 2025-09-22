@@ -2,12 +2,12 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "BlackSand",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.souchy.blacksand",
   "build": {
-    "frontendDist": "..",
-    "devUrl": "http://localhost:9000",
-    "beforeDevCommand": "npm start",
-    "beforeBuildCommand": "npm run build"
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:9876",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist/"
   },
   "app": {
     "windows": [

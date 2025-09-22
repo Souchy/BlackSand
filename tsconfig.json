@@ -15,6 +15,18 @@
       ],
       "@base/*": [
         "src/platforms/common/*"
+      ],
+      "@platform": [
+        "src/platforms/desktop",
+        "src/platforms/web",
+        "src/platforms/mobile",
+        "src/platforms/common"
+      ],
+      "@platform/*": [
+        "src/platforms/desktop/*",
+        "src/platforms/web/*",
+        "src/platforms/mobile/*",
+        "src/platforms/common/*"
       ]
     }
   },
