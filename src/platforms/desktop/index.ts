@@ -1,7 +1,17 @@
+import { Registration } from 'aurelia';
+import { registrations as NativeRegistrations } from '../native/index';
+import { IFileDialog } from '@/core/file-dialog';
+import { FileDialogDesktop } from './file-dialog-desktop';
+
 const modules = import.meta.glob(['./components/**/*.ts', './views/**/*.ts'], { eager: true });
 const components = Object.values(modules).flatMap(mod => Object.values(mod));
-export default components;
 
 // Platform specific exports
-export * from './app';
-export * from '@/features/feature-embed-db/embed-db';
+export const registrations = [
+	...NativeRegistrations,
+	...components,
+	Registration.singleton(IFileDialog, FileDialogDesktop)
+];
+console.log("Desktop platform registrations:", registrations);
+
+export { App } from './app';

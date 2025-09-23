@@ -9,6 +9,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@aurelia/router": "latest",
+    "@tauri-apps/plugin-dialog": "^2.4.0",
     "aurelia": "latest",
     "souchy.au": "^0.1.15"
   },

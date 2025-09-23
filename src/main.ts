@@ -1,4 +1,4 @@
-import Aurelia, { LoggerConfiguration, LogLevel } from 'aurelia';
+import Aurelia, { LoggerConfiguration, LogLevel, Registration } from 'aurelia';
 import { RouterConfiguration, Transition } from '@aurelia/router';
 import { I18N, I18nConfiguration } from '@aurelia/i18n';
 import Fetch from 'i18next-fetch-backend';
@@ -8,6 +8,12 @@ import * as platformModule from '@platform';
 
 const isDev = import.meta.env.VITE_IS_DEBUG;
 const platformName = import.meta.env.VITE_PLATFORM;
+
+if (isDev) {
+  console.log(`Starting application in ${platformName} mode...`);
+  console.log("Common modules:", commonModule);
+  console.log("Platform modules:", platformModule);
+}
 
 const au = new Aurelia();
 
@@ -26,23 +32,21 @@ let app: any = platformModule.App ?? commonModule.App;
 // Merge common and platform modules, platform overrides common
 let commonExports = Object.values(commonModule).flat();
 let platformExports = Object.values(platformModule).flat();
+if (isDev) console.log("Platform modules flat:", platformExports);
 
 const tag = (c: any) => c?.name;
 const map = new Map(commonExports.map(c => [tag(c), c]))
 for (const c of platformExports) {
   const ctag: string = tag(c);
   if (isDev && map.has(ctag))
-    console.log(`Override module '${ctag}':`, map.get(ctag), "->", c)
+    console.log(`Override module '${ctag}':`); //, map.get(ctag), "->", c)
   map.set(ctag, c);
 }
 modules = Array.from(map.values())
 au.register(modules);
 
 if (isDev) {
-  console.log("Dev Mode");
-  console.log("Platform: ", platformName);
-  console.log("Modules: ", modules);
-  console.log("App: ", app);
+  console.log("Registered modules:", modules);
 }
 
 // I18N
