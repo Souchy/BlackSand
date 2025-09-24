@@ -13,6 +13,7 @@ if (isDev) {
   console.log(`Starting application in ${platformName} mode...`);
   console.log("Common modules:", commonModule);
   console.log("Platform modules:", platformModule);
+  console.log("Registry:", platformModule.registry);
 }
 
 const au = new Aurelia();
@@ -26,28 +27,9 @@ au.register(LoggerConfiguration.create({
 au.register(SouchyAu);
 
 // Components
-let modules: {} = commonModule;
-let app: any = platformModule.App ?? commonModule.App;
-
-// Merge common and platform modules, platform overrides common
-let commonExports = Object.values(commonModule).flat();
-let platformExports = Object.values(platformModule).flat();
-if (isDev) console.log("Platform modules flat:", platformExports);
-
-const tag = (c: any) => c?.name;
-const map = new Map(commonExports.map(c => [tag(c), c]))
-for (const c of platformExports) {
-  const ctag: string = tag(c);
-  if (isDev && map.has(ctag))
-    console.log(`Override module '${ctag}':`); //, map.get(ctag), "->", c)
-  map.set(ctag, c);
-}
-modules = Array.from(map.values())
-au.register(modules);
-
-if (isDev) {
-  console.log("Registered modules:", modules);
-}
+let app = platformModule.registry.app;
+au.register(...platformModule.registry.namedRegistrations.values());
+au.register(...platformModule.registry.registrations);
 
 // I18N
 let i18n: I18N | null = null;

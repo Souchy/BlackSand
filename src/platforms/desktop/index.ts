@@ -1,17 +1,23 @@
 import { Registration } from 'aurelia';
-import { registrations as NativeRegistrations } from '../native/index';
+import { registry as NativeRegistry } from '../native/index';
 import { IFileDialog } from '@/core/file-dialog';
 import { FileDialogDesktop } from './file-dialog-desktop';
+import { PlatformRegistry } from '@/core/platform-registry';
+import * as NativeRegistrations from '../native/index';
+import { App } from './app';
 
 const modules = import.meta.glob(['./components/**/*.ts', './views/**/*.ts'], { eager: true });
 const components = Object.values(modules).flatMap(mod => Object.values(mod));
 
-// Platform specific exports
-export const registrations = [
-	...NativeRegistrations,
-	...components,
-	Registration.singleton(IFileDialog, FileDialogDesktop)
-];
-console.log("Desktop platform registrations:", registrations);
+export const registry: PlatformRegistry = NativeRegistrations.registry
+	// Components
+	.withRegistrations([
+		...components,
+	])
+	// Explicit registrations
+	.withRegistrations([
+		Registration.singleton(IFileDialog, FileDialogDesktop)
+	])
+	// App
+	.withApp(App)
 
-export { App } from './app';

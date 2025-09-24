@@ -1,7 +1,7 @@
 import { OpenDialogOptions, OpenDialogReturn } from "@tauri-apps/plugin-dialog";
+import { DI } from "aurelia";
 
-export const IFileDialog = Symbol('IFileDialog');
+export const IFileDialog = DI.createInterface<IFileDialog>();
 export interface IFileDialog {
-	// declare function open<T extends OpenDialogOptions>(options?: T): Promise<OpenDialogReturn<T>>;
 	open<T extends OpenDialogOptions>(options?: T): Promise<OpenDialogReturn<T>>;
 }

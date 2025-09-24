@@ -1,14 +1,13 @@
 
 import { IFileDialog } from '@/core/file-dialog';
-// import { open } from '@tauri-apps/plugin-dialog';
 import { inject, resolve } from 'aurelia';
 
-@inject(IFileDialog)
+// @inject(IFileDialog)
 export class App {
-	// private fileDialog = resolve(IFileDialog);
+	private fileDialog = resolve(IFileDialog);
 
-	constructor(private fileDialog: IFileDialog) {
-	}
+	// constructor(private fileDialog: IFileDialog) {
+	// }
 
 	private async clickImport() {
 		// Open a dialog
