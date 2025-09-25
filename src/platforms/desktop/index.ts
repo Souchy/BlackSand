@@ -9,15 +9,15 @@ import { App } from './app';
 const modules = import.meta.glob(['./components/**/*.ts', './views/**/*.ts'], { eager: true });
 const components = Object.values(modules).flatMap(mod => Object.values(mod));
 
-export const registry: PlatformRegistry = NativeRegistrations.registry
-	// Components
-	.withRegistrations([
-		...components,
-	])
-	// Explicit registrations
-	.withRegistrations([
-		Registration.singleton(IFileDialog, FileDialogDesktop)
-	])
-	// App
-	.withApp(App)
+export const registry: PlatformRegistry = NativeRegistrations.registry;
+	// // Components
+	// .withRegistrations([
+	// 	...components,
+	// ])
+	// // Explicit registrations
+	// .withRegistrations([
+	// 	Registration.singleton(IFileDialog, FileDialogDesktop)
+	// ])
+	// // App
+	// .withApp(App)
 
