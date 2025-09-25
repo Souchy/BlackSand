@@ -34,7 +34,7 @@ export default defineConfig({
   // prevent vite from obscuring rust errors
   clearScreen: false,
   server: {
-    open: !process.env.CI,
+    open: false, // !process.env.CI,
     port: 9876,
     // Tauri expects a fixed port, fail if that port is not available
     strictPort: true,

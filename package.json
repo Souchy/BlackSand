@@ -9,7 +9,13 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@aurelia/router": "latest",
+    "@tauri-apps/plugin-autostart": "^2.5.0",
     "@tauri-apps/plugin-dialog": "^2.4.0",
+    "@tauri-apps/plugin-fs": "^2.4.2",
+    "@tauri-apps/plugin-log": "^2.7.0",
+    "@tauri-apps/plugin-notification": "^2.3.1",
+    "@tauri-apps/plugin-sql": "^2.3.0",
+    "@tauri-apps/plugin-store": "^2.4.0",
     "aurelia": "latest",
     "souchy.au": "^0.1.15"
   },

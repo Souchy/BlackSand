@@ -7,6 +7,10 @@
   ],
   "permissions": [
     "core:default",
-    "dialog:default"
+    "dialog:default",
+    "sql:default",
+    "fs:default",
+    "log:default",
+    "notification:default"
   ]
 }

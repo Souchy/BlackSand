@@ -9,6 +9,9 @@
     "importHelpers": true,
     "sourceMap": true,
     "baseUrl": ".",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "inlineSources": true,
     "paths": {
       "@/*": [
         "src/*"
