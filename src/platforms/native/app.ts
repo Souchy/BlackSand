@@ -8,16 +8,8 @@ export class App {
 
 	// constructor(private fileDialog: IFileDialog) {
 	// }
-
-	private async clickImport() {
-		// Open a dialog
-		const file = await this.fileDialog.open({
-			// const file = await open({
-			multiple: false,
-			directory: false,
-		});
-		console.log(file);
-		// Prints file path or URI
+	constructor() {
 	}
+
 
 }

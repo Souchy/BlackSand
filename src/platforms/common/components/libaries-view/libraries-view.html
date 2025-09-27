@@ -1,0 +1,17 @@
+<h2>Libraries</h2>
+<button click.trigger="clickImport()">Import</button>
+
+<div promise.bind="loadPromise">
+  <template pending>
+    <p>Loading libraries...</p>
+  </template>
+  <template then="data">
+    <p>Loaded ${data.size} libraries.</p>
+    <ul>
+      <li repeat.for="library of libraries">${library.name} - ${library.path}</li>
+    </ul>
+  </template>
+  <template catch="error">
+    <p>Error loading libraries: ${error.message}</p>
+  </template>
+</div>
