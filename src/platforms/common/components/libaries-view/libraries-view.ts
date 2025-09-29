@@ -1,7 +1,7 @@
+import { resolve } from "aurelia";
 import { IFileDialog } from "@/core/file-dialog";
 import { Library } from "@/core/models/library";
 import { LibraryService } from "@/features/feature-embed-db/embed-db";
-import { resolve } from "aurelia";
 
 export class LibrariesView {
 	private fileDialog = resolve(IFileDialog);
@@ -11,10 +11,12 @@ export class LibrariesView {
 	public async created() {
 		console.log('LibrariesView created');
 		if (!this.loadPromise) {
-			this.loadPromise = this.libraryService.createTable().then(() => this.libraryService.getLibraries().then(libs => {
-				console.log('Libraries loaded', libs);
-				return libs;
-			}));
+			this.loadPromise = this.libraryService.createTable()
+				.then(() => this.libraryService.getLibraries())
+				.then(libs => {
+					console.log('Libraries loaded', libs);
+					return libs;
+				});
 		}
 	}
 

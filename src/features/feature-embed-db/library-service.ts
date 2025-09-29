@@ -1,14 +1,18 @@
 import { resolve } from 'aurelia';
-import { Library } from './../../core/models/library';
+import { Library } from '@/core/models/library';
 import { EmbedDB } from './embed-db';
+import { LibraryAssetService } from './library-asset-service';
 
 /**
  * Todo: Implement a ILibraryService.
  * Todo: Make a component that uses the service to display libraries.
  */
 export class LibraryService {
+	public static readonly LIBRARIES_TABLE = "libraries";
 	private embedDb: EmbedDB = resolve(EmbedDB);
-	// Keyed by path
+	private libraryAssetService: LibraryAssetService = resolve(LibraryAssetService);
+
+	// All libraries, keyed by path
 	private cache: Map<string, Library> | null = null;
 
 	public createLibrary(name: string, path: string): Library {
@@ -29,7 +33,7 @@ export class LibraryService {
 		// if (!this.embedDb.db) throw new Error('Database not loaded');
 		if (!this.embedDb.db) await this.embedDb.load();
 		await this.embedDb.db.execute(`
-			CREATE TABLE IF NOT EXISTS libraries (
+			CREATE TABLE IF NOT EXISTS ${LibraryService.LIBRARIES_TABLE} (
 				id TEXT PRIMARY KEY,
 				name TEXT NOT NULL,
 				path TEXT NOT NULL UNIQUE,
@@ -40,6 +44,7 @@ export class LibraryService {
 				date_scanned TEXT NOT NULL
 			)
 		`);
+		await this.libraryAssetService.createTable();
 	}
 
 	public getCache(): Map<string, Library> | null {
@@ -49,27 +54,27 @@ export class LibraryService {
 	public async getLibraries(): Promise<Map<string, Library>> {
 		if (!this.embedDb.db) throw new Error('Database not loaded');
 		if (this.cache) return this.cache;
-		let libraries = this.embedDb.db.select<Library[]>('SELECT * FROM libraries');
+		let libraries = this.embedDb.db.select<Library[]>(`SELECT * FROM ${LibraryService.LIBRARIES_TABLE}`);
 		this.cache = new Map((await libraries).map(lib => [lib.path, lib]));
 		return this.cache;
 	}
 
 	public async getLibraryById(id: string): Promise<Library | null> {
 		if (!this.embedDb.db) throw new Error('Database not loaded');
-		const results = await this.embedDb.db.select<Library>('SELECT * FROM libraries WHERE id = ?', [id]);
+		const results = await this.embedDb.db.select<Library>(`SELECT * FROM ${LibraryService.LIBRARIES_TABLE} WHERE id = ?`, [id]);
 		return results[0] || null;
 	}
 
 	public async getLibraryByPath(path: string): Promise<Library | null> {
 		if (!this.embedDb.db) throw new Error('Database not loaded');
-		const results = await this.embedDb.db.select<Library>('SELECT * FROM libraries WHERE path = ?', [path]);
+		const results = await this.embedDb.db.select<Library>(`SELECT * FROM ${LibraryService.LIBRARIES_TABLE} WHERE path = ?`, [path]);
 		return results[0] || null;
 	}
 
 	public async addLibrary(library: Library): Promise<void> {
 		if (!this.embedDb.db) throw new Error('Database not loaded');
 		await this.embedDb.db.execute(
-			'INSERT INTO libraries (id, name, path, recursive, ignore, date_created, date_modified, date_scanned) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+			`INSERT INTO ${LibraryService.LIBRARIES_TABLE} (id, name, path, recursive, ignore, date_created, date_modified, date_scanned) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
 			[
 				library.id,
 				library.name,
@@ -87,7 +92,7 @@ export class LibraryService {
 	public async updateLibrary(library: Library): Promise<void> {
 		if (!this.embedDb.db) throw new Error('Database not loaded');
 		await this.embedDb.db.execute(
-			'UPDATE libraries SET name = ?, path = ?, recursive = ?, ignore = ?, date_created = ?, date_modified = ?, date_scanned = ? WHERE id = ?',
+			`UPDATE ${LibraryService.LIBRARIES_TABLE} SET name = ?, path = ?, recursive = ?, ignore = ?, date_created = ?, date_modified = ?, date_scanned = ? WHERE id = ?`,
 			[
 				library.name,
 				library.path,
@@ -104,7 +109,7 @@ export class LibraryService {
 
 	public async deleteLibrary(library: Library): Promise<void> {
 		if (!this.embedDb.db) throw new Error('Database not loaded');
-		await this.embedDb.db.execute('DELETE FROM libraries WHERE id = ?', [library.id]);
+		await this.embedDb.db.execute(`DELETE FROM ${LibraryService.LIBRARIES_TABLE} WHERE id = ?`, [library.id]);
 		this.cache.delete(library.path);
 	}
 

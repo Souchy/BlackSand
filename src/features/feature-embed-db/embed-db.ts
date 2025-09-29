@@ -1,6 +1,8 @@
 import Database from '@tauri-apps/plugin-sql';
 
-export * from './library_service';
+export * from './library-service';
+export * from './asset-service';
+export * from './library-asset-service';
 export class EmbedDB {
 
 	public db: Database | null = null;
